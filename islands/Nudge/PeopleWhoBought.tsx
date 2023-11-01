@@ -1,21 +1,30 @@
-import { useEffect, useState } from "preact/hooks";
-import Nudge, { Position } from "../../components/Nudge.tsx";
+import Nudge, { Position } from "./Nudge.tsx";
 
 export interface Props {
   minQuantityToShow: number;
   quantityOfBought: number;
   delayToShowInSeconds: number;
+  accentColor?: 'emerald' | 'amber';
   position?: Position;
+  badgeText: string;
 }
 
-function PeopleWhoBought({position = 'right-bottom', minQuantityToShow, quantityOfBought, ...props }: Props){
+function PeopleWhoBought({
+  position = 'right-bottom',
+  minQuantityToShow,
+  quantityOfBought,
+  badgeText = 'Popular',
+  accentColor = 'emerald',
+  ...props
+}: Props){
 
   return (
     <>
       {quantityOfBought >= minQuantityToShow && (
-        <Nudge {...props} accentColor="emerald" position={position} badgeText="Popular">
-          <p className="text-base font-medium text-zinc-800 tracking-wider leading-relaxed"><strong className="text-emerald-800 font-bold">+{quantityOfBought}</strong> pessoas compraram esse produto recentemente </p>
-
+        <Nudge {...props} accentColor={accentColor} position={position} badgeText={badgeText}>
+          <p className="text-base font-medium text-zinc-800 tracking-wider leading-relaxed">
+            <strong className="text-emerald-800 font-bold">+{quantityOfBought}</strong> pessoas compraram esse produto recentemente
+          </p>
         </Nudge>
       )}
     </>

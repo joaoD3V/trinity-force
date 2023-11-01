@@ -1,6 +1,14 @@
 import { useEffect, useState } from "preact/hooks";
-import { differenceInSeconds } from 'npm:date-fns';
-import Nudge, { Position } from "../../components/Nudge.tsx";
+import Nudge, { Position } from "./Nudge.tsx";
+
+export interface Props {
+  minQuantityToShow: number;
+  quantityOfBought: number;
+  delayToShowInSeconds: number;
+  accentColor?: 'emerald' | 'amber';
+  position?: Position;
+  badgeText: string;
+}
 
 export interface Props {
   delayToShowInSeconds: number;
@@ -24,10 +32,14 @@ function Countdown({ time }: CountdownProps) {
   )
 }
 
-function FlashOffer({delayToShowInSeconds, expiresAt, position = 'right-bottom'}: Props){
+function FlashOffer({
+  delayToShowInSeconds,
+  badgeText = 'Oferta Relâmpago',
+  accentColor = 'amber',
+  expiresAt,
+  position = 'right-bottom'
+}: Props){
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-
-  console.log(timeLeft)
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -71,9 +83,8 @@ function FlashOffer({delayToShowInSeconds, expiresAt, position = 'right-bottom'}
     document.title = hasDay ? `${days}:${hours}:${minutes}:${seconds}` : `${hours}:${minutes}:${seconds}`;
   }, [timeLeft]);
 
-
   return (
-    <Nudge delayToShowInSeconds={delayToShowInSeconds} accentColor="amber" position={position} badgeText="Oferta Relâmpago" >
+    <Nudge delayToShowInSeconds={delayToShowInSeconds} accentColor={accentColor} position={position} badgeText={badgeText} >
 
       <div className="flex items-center justify-center gap-1 w-full">
         {Number(timeLeft.days) > 0 && (

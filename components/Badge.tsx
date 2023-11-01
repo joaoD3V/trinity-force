@@ -1,11 +1,7 @@
-import { useEffect, useState } from "preact/hooks";
-import { differenceInSeconds } from 'npm:date-fns';
-
 export interface Props {
   accentColor: 'emerald' | 'amber';
   text: string;
 }
-
 
 function Badge({ accentColor, text }: Props){
   return (
