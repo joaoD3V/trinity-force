@@ -27,6 +27,8 @@ function Countdown({ time }: CountdownProps) {
 function FlashOffer({delayToShowInSeconds, expiresAt, position = 'right-bottom'}: Props){
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
+  console.log(timeLeft)
+
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
@@ -81,12 +83,10 @@ function FlashOffer({delayToShowInSeconds, expiresAt, position = 'right-bottom'}
           </div>
         )}
 
-        {Number(timeLeft.hours) > 0 && (
           <div className="flex flex-col items-center justify-center gap-0.5">
             <span className="text-xs">H</span>
             <Countdown time={Number(timeLeft.hours)}/>
           </div>
-        )}
 
         <div className="flex flex-col items-center justify-center gap-0.5">
           <span className="text-xs">Min.</span>
