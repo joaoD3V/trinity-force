@@ -11,8 +11,8 @@ export interface Props {
 
 function PeopleWhoBought({
   position = 'right-bottom',
-  minQuantityToShow,
-  quantityOfBought,
+  minQuantityToShow = 100,
+  quantityOfBought = 100,
   badgeText = 'Popular',
   accentColor = 'emerald',
   ...props
