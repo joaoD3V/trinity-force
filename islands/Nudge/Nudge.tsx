@@ -2,19 +2,22 @@ import { useEffect, useState } from "preact/hooks";
 import type { ComponentChildren } from "preact";
 
 import Badge, { BadgeProps } from "$store/components/ui/Badge.tsx";
+import Icon from "../../components/ui/Icon.tsx";
 
 export type Position =
-  'bottom-center'
-  | 'left-bottom'
-  | 'left-center'
-  | 'left-top'
-  | 'right-bottom'
-  | 'right-center'
-  | 'right-top'
-  | 'top-center';
+  | "bottom-center"
+  | "left-bottom"
+  | "left-center"
+  | "left-top"
+  | "right-bottom"
+  | "right-center"
+  | "right-top"
+  | "top-center";
 
 export interface NudgeBaseProps {
   delayToShowInSeconds: number;
+  disappearAfterSeconds?: number;
+  persistentNudge?: boolean;
   position: Position;
   badge: BadgeProps;
 }
@@ -24,46 +27,65 @@ export interface NudgeProps extends NudgeBaseProps {
 }
 
 const POSITION_STYLE = {
-  'bottom-center': 'bottom-4 left-1/2 transform -translate-x-1/2',
-  'left-bottom': 'left-4 bottom-4',
-  'left-center': 'top-1/2 left-4 transform -translate-y-1/2',
-  'left-top': 'left-4 top-4',
-  'right-bottom': 'right-4 bottom-4',
-  'right-center': 'top-1/2 right-4 transform -translate-y-1/2',
-  'right-top': 'right-4 top-4',
-  'top-center': 'top-4 left-1/2 transform -translate-x-1/2',
+  "bottom-center": "bottom-4 left-1/2 transform -translate-x-1/2",
+  "left-bottom": "left-4 bottom-4",
+  "left-center": "top-1/2 left-4 transform -translate-y-1/2",
+  "left-top": "left-4 top-4",
+  "right-bottom": "right-4 bottom-4",
+  "right-center": "top-1/2 right-4 transform -translate-y-1/2",
+  "right-top": "right-4 top-4",
+  "top-center": "top-4 left-1/2 transform -translate-x-1/2",
 };
 
 function Nudge({
   children,
   delayToShowInSeconds = 0,
-  position = 'left-bottom',
-  badge
+  position = "left-bottom",
+  persistentNudge = true,
+  disappearAfterSeconds,
+  badge,
 }: NudgeProps) {
   const [isShowing, setIsShowing] = useState(false);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIsShowing(true);
-    }, delayToShowInSeconds * 1000)
+    }, delayToShowInSeconds * 1000);
 
     return () => {
-      clearTimeout(timeout)
+      clearTimeout(timeout);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!persistentNudge && disappearAfterSeconds) {
+      const timeout = setTimeout(() => {
+        setIsShowing(false);
+      }, disappearAfterSeconds * 1000);
+      return () => {
+        clearTimeout(timeout);
+      };
     }
   }, []);
 
   if (!isShowing) return null;
 
-   return (
+  return (
     <div
-      className={
-        `flex flex-col items-start justify-start gap-3.5 p-4 shadow-2xl bg-white fixed z-50 rounded-lg max-w-[354px] ${POSITION_STYLE[position]}`
-      }
+      className={`flex flex-col items-start justify-start gap-3.5 p-4 shadow-2xl bg-white fixed z-50 rounded-lg max-w-[354px] ${
+        POSITION_STYLE[position]
+      }`}
     >
+      <div
+        className={"absolute top-4 right-4 cursor-pointer"}
+        onClick={() => setIsShowing(false)}
+      >
+        <Icon id="XMark" size={12} strokeWidth={4} />
+      </div>
       <Badge {...badge} />
       {children}
     </div>
   );
 }
 
-export default Nudge
+export default Nudge;
