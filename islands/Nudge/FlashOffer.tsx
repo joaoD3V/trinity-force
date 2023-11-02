@@ -1,18 +1,15 @@
 import { useEffect, useState } from "preact/hooks";
-import Nudge, { Position } from "$store/islands/Nudge/Nudge.tsx";
+
+import Nudge, { NudgeBaseProps } from "$store/islands/Nudge/Nudge.tsx";
 
 export interface Props {
-  delayToShowInSeconds: number;
-
   /**
    * @title Expires at date
    * @format datetime
    */
   expiresAt: string;
 
-  position?: Position;
-  accentColor?: 'emerald' | 'amber';
-  badgeText: string;
+  nudge?: Partial<NudgeBaseProps>;
 }
 
 type CountdownProps = {
@@ -21,18 +18,29 @@ type CountdownProps = {
 
 function Countdown({ time }: CountdownProps) {
   return (
-    <span className="bg-black text-white text-base tracking-wider font-medium h-8 w-9 px-2 py-1 rounded shadow-md flex items-center justify-center">{String(time).padStart(2, '0')}</span>
-  )
+    <span
+      className="bg-black text-white text-base tracking-wider font-medium h-8 w-9 px-2 py-1 rounded shadow-md flex items-center justify-center"
+    >
+      {String(time).padStart(2, '0')}
+    </span>
+  );
 }
 
 function FlashOffer({
-  delayToShowInSeconds = 0,
-  badgeText = 'Oferta Relâmpago',
-  accentColor = 'amber',
   expiresAt,
-  position = 'right-bottom'
+  nudge
 }: Props){
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+
+  const nudgeProps: NudgeBaseProps = {
+    position: nudge?.position || 'right-bottom',
+    delayToShowInSeconds: nudge?.delayToShowInSeconds || 0,
+    badge: {
+      text: nudge?.badge?.text || 'Oferta Relâmpago',
+      accentColor: nudge?.badge?.accentColor || 'amber',
+      icon: nudge?.badge?.icon
+    }
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -77,8 +85,7 @@ function FlashOffer({
   }, [timeLeft]);
 
   return (
-    <Nudge delayToShowInSeconds={delayToShowInSeconds} accentColor={accentColor} position={position} badgeText={badgeText} >
-
+    <Nudge {...nudgeProps}>
       <div className="flex items-center justify-center gap-1 w-full">
         {Number(timeLeft.days) > 0 && (
           <div className="flex flex-col items-center justify-center gap-0.5">
@@ -86,7 +93,6 @@ function FlashOffer({
             <Countdown time={Number(timeLeft.days)}/>
           </div>
         )}
-
           <div className="flex flex-col items-center justify-center gap-0.5">
             <span className="text-xs">H</span>
             <Countdown time={Number(timeLeft.hours)}/>
@@ -101,8 +107,8 @@ function FlashOffer({
           <Countdown time={Number(timeLeft.seconds)}/>
         </div>
       </div>
-
     </Nudge>
   );
 }
+
 export default FlashOffer
