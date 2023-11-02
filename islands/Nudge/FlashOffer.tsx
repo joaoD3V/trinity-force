@@ -32,10 +32,15 @@ function FlashOffer({
 }: Props){
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
-  const badgeText = nudge?.badge?.text || 'Oferta Relâmpago';
-  const badgeColor = nudge?.badge?.accentColor || 'amber';
-  const nudgeDelay = nudge?.delayToShowInSeconds || 0;
-  const nudgePosition = nudge?.position || 'right-bottom';
+  const nudgeProps: NudgeBaseProps = {
+    position: nudge?.position || 'right-bottom',
+    delayToShowInSeconds: nudge?.delayToShowInSeconds || 0,
+    badge: {
+      text: nudge?.badge?.text || 'Oferta Relâmpago',
+      accentColor: nudge?.badge?.accentColor || 'amber',
+      icon: nudge?.badge?.icon
+    }
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -80,11 +85,7 @@ function FlashOffer({
   }, [timeLeft]);
 
   return (
-    <Nudge
-      position={nudgePosition}
-      delayToShowInSeconds={nudgeDelay}
-      badge={{ text: badgeText, accentColor: badgeColor, icon: nudge?.badge?.icon }}
-    >
+    <Nudge {...nudgeProps}>
       <div className="flex items-center justify-center gap-1 w-full">
         {Number(timeLeft.days) > 0 && (
           <div className="flex flex-col items-center justify-center gap-0.5">
