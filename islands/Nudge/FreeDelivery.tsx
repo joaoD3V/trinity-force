@@ -28,8 +28,6 @@ function FreeDelivery({
   const badgeColor = nudge?.badge?.accentColor || "green";
   const badgeIcon = nudge?.badge?.icon || "Zoom";
   const nudgeDelay = nudge?.delayToShowInSeconds || 0;
-  const nudgeDisapearAfterSeconds = nudge?.disapearAfterSeconds || 10;
-  const persistentNudge = nudge?.persistentNudge || false;
   const nudgePosition = nudge?.position || "right-bottom";
 
   return (
@@ -41,8 +39,8 @@ function FreeDelivery({
         accentColor: badgeColor,
         icon: badgeIcon,
       }}
-      disapearAfterSeconds={nudgeDisapearAfterSeconds}
-      persistentNudge={persistentNudge}
+      disappearAfterSeconds={nudge?.disappearAfterSeconds}
+      persistentNudge={nudge?.persistentNudge}
     >
       <div className="flex gap-3 items-center">
         <p className="text-base font-medium text-zinc-800 tracking-wider leading-relaxed">
