@@ -1,7 +1,7 @@
 import { useEffect, useState,  } from "preact/hooks";
-import Badge from "./Badge.tsx";
-
 import type { ComponentChildren } from "preact";
+
+import Badge from "$store/components/Badge.tsx";
 
 export type Position = 'left-top' | 'left-center' | 'left-bottom' | 'bottom-center' | 'right-top' | 'right-center' | 'right-bottom' | 'top-center';
 
@@ -12,8 +12,6 @@ export interface Props {
   position: Position;
   badgeText: string;
 }
-
-
 
 function Nudge({ children, delayToShowInSeconds, accentColor = 'emerald', position, badgeText }: Props){
   const [isShowing, setIsShowing] = useState(false);
@@ -27,7 +25,6 @@ function Nudge({ children, delayToShowInSeconds, accentColor = 'emerald', positi
       clearTimeout(timeout)
     }
   }, [])
-
 
    return (
     <>

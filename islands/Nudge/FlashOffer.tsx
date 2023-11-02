@@ -1,6 +1,5 @@
 import { useEffect, useState } from "preact/hooks";
-import { differenceInSeconds } from 'npm:date-fns';
-import Nudge, { Position } from "../../components/Nudge.tsx";
+import Nudge, { Position } from "./Nudge.tsx";
 
 export interface Props {
   delayToShowInSeconds: number;
@@ -12,6 +11,8 @@ export interface Props {
   expiresAt: string;
 
   position?: Position;
+  accentColor?: 'emerald' | 'amber';
+  badgeText: string;
 }
 
 type CountdownProps = {
@@ -24,10 +25,14 @@ function Countdown({ time }: CountdownProps) {
   )
 }
 
-function FlashOffer({delayToShowInSeconds, expiresAt, position = 'right-bottom'}: Props){
+function FlashOffer({
+  delayToShowInSeconds = 0,
+  badgeText = 'Oferta Relâmpago',
+  accentColor = 'amber',
+  expiresAt,
+  position = 'right-bottom'
+}: Props){
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-
-  console.log(timeLeft)
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -40,7 +45,7 @@ function FlashOffer({delayToShowInSeconds, expiresAt, position = 'right-bottom'}
   }, []);
 
   function calculateTimeLeft() {
-    const difference = new Date(expiresAt).getTime() - new Date().getTime();
+    const difference = expiresAt ? new Date(expiresAt).getTime() - new Date().getTime() : 0;
 
     if (difference <= 0) {
       return {
@@ -71,9 +76,8 @@ function FlashOffer({delayToShowInSeconds, expiresAt, position = 'right-bottom'}
     document.title = hasDay ? `${days}:${hours}:${minutes}:${seconds}` : `${hours}:${minutes}:${seconds}`;
   }, [timeLeft]);
 
-
   return (
-    <Nudge delayToShowInSeconds={delayToShowInSeconds} accentColor="amber" position={position} badgeText="Oferta Relâmpago" >
+    <Nudge delayToShowInSeconds={delayToShowInSeconds} accentColor={accentColor} position={position} badgeText={badgeText} >
 
       <div className="flex items-center justify-center gap-1 w-full">
         {Number(timeLeft.days) > 0 && (
