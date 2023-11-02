@@ -57,7 +57,7 @@ function Nudge({
    return (
     <div
       className={
-        `flex flex-col content-center justify-start gap-3.5 p-4 shadow-2xl bg-white fixed z-50 rounded-lg max-w-[354px] ${POSITION_STYLE[position]}`
+        `flex flex-col items-start justify-start gap-3.5 p-4 shadow-2xl bg-white fixed z-50 rounded-lg max-w-[354px] ${POSITION_STYLE[position]}`
       }
     >
       <Badge {...badge} />
