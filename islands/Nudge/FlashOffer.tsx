@@ -2,15 +2,6 @@ import { useEffect, useState } from "preact/hooks";
 import Nudge, { Position } from "./Nudge.tsx";
 
 export interface Props {
-  minQuantityToShow: number;
-  quantityOfBought: number;
-  delayToShowInSeconds: number;
-  accentColor?: 'emerald' | 'amber';
-  position?: Position;
-  badgeText: string;
-}
-
-export interface Props {
   delayToShowInSeconds: number;
 
   /**
@@ -20,6 +11,8 @@ export interface Props {
   expiresAt: string;
 
   position?: Position;
+  accentColor?: 'emerald' | 'amber';
+  badgeText: string;
 }
 
 type CountdownProps = {
@@ -33,7 +26,7 @@ function Countdown({ time }: CountdownProps) {
 }
 
 function FlashOffer({
-  delayToShowInSeconds,
+  delayToShowInSeconds = 0,
   badgeText = 'Oferta Relâmpago',
   accentColor = 'amber',
   expiresAt,
@@ -52,7 +45,7 @@ function FlashOffer({
   }, []);
 
   function calculateTimeLeft() {
-    const difference = new Date(expiresAt).getTime() - new Date().getTime();
+    const difference = expiresAt ? new Date(expiresAt).getTime() - new Date().getTime() : 0;
 
     if (difference <= 0) {
       return {
