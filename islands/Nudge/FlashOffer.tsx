@@ -1,5 +1,5 @@
 import { useEffect, useState } from "preact/hooks";
-import Nudge, { Position } from "./Nudge.tsx";
+import Nudge, { Position } from "$store/islands/Nudge/Nudge.tsx";
 
 export interface Props {
   delayToShowInSeconds: number;

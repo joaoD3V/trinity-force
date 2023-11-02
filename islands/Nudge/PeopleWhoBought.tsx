@@ -1,4 +1,4 @@
-import Nudge, { Position } from "./Nudge.tsx";
+import Nudge, { Position } from "$store/islands/Nudge/Nudge.tsx";
 
 export interface Props {
   minQuantityToShow: number;
