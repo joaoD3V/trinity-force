@@ -1,4 +1,4 @@
-import Nudge, { Position } from "$store/islands/Nudge/Nudge.tsx"
+import Nudge, { NudgeBaseProps } from "$store/islands/Nudge/Nudge.tsx"
 import { AvailableIcons } from "$store/components/ui/Icon.tsx"
 
 export interface Props {
@@ -12,47 +12,28 @@ export interface Props {
    */
   maxQuantityToShow: number;
 
-  /**
-   * @title Seconds for displaying nudge
-   */
-  delayToShowInSeconds: number;
-
-  /**
-   * @title Nudge position
-   */
-  position: Position;
-
-  /** 
-   * @title Badge title
-   */
-  badgeText: string;
-
-  /**
-   * @title Badge color
-   */
-  accentColor: 'emerald' | 'amber';
-
-  /** 
-   * @title Badge icon
-   */
-  badgeIcon?: AvailableIcons;
+  nudge?: Partial<NudgeBaseProps>;
 }
 
 function LowStock({
-  accentColor,
-  badgeText,
-  delayToShowInSeconds,
-  maxQuantityToShow,
-  position,
-  stock,
-  badgeIcon,
-  ...props
-}: Props){
+  maxQuantityToShow = 100,
+  stock = 100,
+  nudge
+}: Props) {
+  if (stock > maxQuantityToShow) return null;
 
-  if (stock > maxQuantityToShow) return null
+  const nudgeProps: NudgeBaseProps = {
+    position: nudge?.position || 'bottom-center',
+    delayToShowInSeconds: nudge?.delayToShowInSeconds || 0,
+    badge: {
+      text: nudge?.badge?.text || 'ÚLTIMAS UNIDADES',
+      accentColor: nudge?.badge?.accentColor || 'amber',
+      icon: nudge?.badge?.icon
+    }
+  };
 
   return (
-    <Nudge {...props} accentColor={accentColor} position={position} badgeText={badgeText} badgeIcon={badgeIcon} delayToShowInSeconds={delayToShowInSeconds}>
+    <Nudge {...nudgeProps}>
       <p className="text-base font-medium text-zinc-800 tracking-wider leading-relaxed">
         <strong className="font-bold">Se apresse!</strong> Apenas <strong className="text-orange-500 font-bold">{stock}</strong> disponíveis!
       </p>
