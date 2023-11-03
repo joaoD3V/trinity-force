@@ -38,8 +38,12 @@ function LowStock({
     <Nudge {...nudgeProps}>
       <p className="text-base font-medium text-zinc-800 tracking-wider leading-relaxed">
         <strong className="font-bold">Se apresse!</strong> Apenas{" "}
-        <strong className="text-orange-500 font-bold">{stock}</strong>{" "}
-        disponíveis!
+        <strong
+          className={`text-${[nudgeProps.badge.accentColor]}-800 font-bold`}
+        >
+          {stock}
+        </strong>{" "}
+        {stock > 1 ? "unidades disponíveis!" : "unidade disponível!"}
       </p>
     </Nudge>
   );
