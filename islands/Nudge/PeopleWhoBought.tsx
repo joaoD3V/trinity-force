@@ -28,7 +28,9 @@ function PeopleWhoBought({
   return (
     <Nudge {...nudgeProps}>
       <p className="text-base font-medium text-zinc-800 tracking-wider leading-relaxed">
-        <strong className="text-emerald-800 font-bold">
+        <strong
+          className={`text-${[nudgeProps.badge.accentColor]}-800 font-bold`}
+        >
           +{quantityOfBought}
         </strong>{" "}
         pessoas compraram esse produto recentemente
