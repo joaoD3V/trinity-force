@@ -15,7 +15,7 @@ export interface Props {
 
   mainText?: string;
 
-  nudge?: Partial<NudgeBaseProps>;
+  nudge?: Partial<Omit<NudgeBaseProps, "isFlashOffer">>;
 }
 
 function FreeDelivery({
@@ -24,28 +24,28 @@ function FreeDelivery({
   mainText = "Frete grátis para compras acima de ",
   nudge,
 }: Props) {
-  const badgeText = nudge?.badge?.text || "De olho no frete";
-  const badgeColor = nudge?.badge?.accentColor || "green";
-  const badgeIcon = nudge?.badge?.icon || "Zoom";
-  const nudgeDelay = nudge?.delayToShowInSeconds || 0;
-  const nudgePosition = nudge?.position || "right-bottom";
+  const nudgeProps: NudgeBaseProps = {
+    position: nudge?.position || "right-bottom",
+    delayToShowInSeconds: nudge?.delayToShowInSeconds || 0,
+    badge: {
+      text: nudge?.badge?.text || "De olho no frete",
+      accentColor: nudge?.badge?.accentColor || "green",
+      icon: nudge?.badge?.icon || "Zoom",
+    },
+    disappearAfterSeconds: nudge?.disappearAfterSeconds,
+    persistentNudge: nudge?.persistentNudge,
+  };
 
   return (
     <Nudge
-      position={nudgePosition}
-      delayToShowInSeconds={nudgeDelay}
-      badge={{
-        text: badgeText,
-        accentColor: badgeColor,
-        icon: badgeIcon,
-      }}
-      disappearAfterSeconds={nudge?.disappearAfterSeconds}
-      persistentNudge={nudge?.persistentNudge}
+      {...nudgeProps}
     >
       <div className="flex gap-3 items-center">
         <p className="text-base font-medium text-zinc-800 tracking-wider leading-relaxed">
           {mainText}{" "}
-          <strong className={`font-bold text-${[badgeColor]}-800`}>
+          <strong
+            className={`font-bold text-${[nudgeProps.badge.accentColor]}-800`}
+          >
             {minimumCartPrice.toLocaleString("pt-BR", {
               style: "currency",
               currency: "BRL",
@@ -54,7 +54,7 @@ function FreeDelivery({
         </p>
         <div
           className={`py-2 px-4 rounded-lg box-border	${
-            COLOR_STYLE[badgeColor]
+            COLOR_STYLE[nudgeProps.badge.accentColor]
           }`}
         >
           <Icon

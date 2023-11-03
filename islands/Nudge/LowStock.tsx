@@ -1,5 +1,5 @@
-import Nudge, { NudgeBaseProps } from "$store/islands/Nudge/Nudge.tsx"
-import { AvailableIcons } from "$store/components/ui/Icon.tsx"
+import Nudge, { NudgeBaseProps } from "$store/islands/Nudge/Nudge.tsx";
+import { AvailableIcons } from "$store/components/ui/Icon.tsx";
 
 export interface Props {
   /**
@@ -12,33 +12,41 @@ export interface Props {
    */
   maxQuantityToShow: number;
 
-  nudge?: Partial<NudgeBaseProps>;
+  nudge?: Partial<Omit<NudgeBaseProps, "isFlashOffer">>;
 }
 
 function LowStock({
   maxQuantityToShow = 100,
   stock = 100,
-  nudge
+  nudge,
 }: Props) {
   if (stock > maxQuantityToShow) return null;
 
   const nudgeProps: NudgeBaseProps = {
-    position: nudge?.position || 'bottom-center',
+    position: nudge?.position || "bottom-center",
     delayToShowInSeconds: nudge?.delayToShowInSeconds || 0,
     badge: {
-      text: nudge?.badge?.text || 'ÚLTIMAS UNIDADES',
-      accentColor: nudge?.badge?.accentColor || 'amber',
-      icon: nudge?.badge?.icon
-    }
+      text: nudge?.badge?.text || "ÚLTIMAS UNIDADES",
+      accentColor: nudge?.badge?.accentColor || "amber",
+      icon: nudge?.badge?.icon,
+    },
+    disappearAfterSeconds: nudge?.disappearAfterSeconds,
+    persistentNudge: nudge?.persistentNudge,
   };
 
   return (
     <Nudge {...nudgeProps}>
       <p className="text-base font-medium text-zinc-800 tracking-wider leading-relaxed">
-        <strong className="font-bold">Se apresse!</strong> Apenas <strong className="text-orange-500 font-bold">{stock}</strong> disponíveis!
+        <strong className="font-bold">Se apresse!</strong> Apenas{" "}
+        <strong
+          className={`text-${[nudgeProps.badge.accentColor]}-800 font-bold`}
+        >
+          {stock}
+        </strong>{" "}
+        {stock > 1 ? "unidades disponíveis!" : "unidade disponível!"}
       </p>
     </Nudge>
   );
 }
 
-export default LowStock
+export default LowStock;

@@ -20,6 +20,7 @@ export interface NudgeBaseProps {
   persistentNudge?: boolean;
   position: Position;
   badge: BadgeProps;
+  isFlashOffer?: boolean;
 }
 
 export interface NudgeProps extends NudgeBaseProps {
@@ -41,9 +42,10 @@ function Nudge({
   children,
   delayToShowInSeconds = 0,
   position = "left-bottom",
-  persistentNudge = true,
+  persistentNudge = false,
   disappearAfterSeconds,
   badge,
+  isFlashOffer,
 }: NudgeProps) {
   const [isShowing, setIsShowing] = useState(false);
 
@@ -59,11 +61,11 @@ function Nudge({
 
   useEffect(() => {
     if (!persistentNudge && disappearAfterSeconds) {
-      const timeout = setTimeout(() => {
+      const disappear = setTimeout(() => {
         setIsShowing(false);
       }, disappearAfterSeconds * 1000);
       return () => {
-        clearTimeout(timeout);
+        clearTimeout(disappear);
       };
     }
   }, []);
@@ -80,7 +82,7 @@ function Nudge({
         className={"absolute top-4 right-4 cursor-pointer"}
         onClick={() => setIsShowing(false)}
       >
-        <Icon id="XMark" size={12} strokeWidth={4} />
+        {!isFlashOffer && <Icon id="XMark" size={12} strokeWidth={4} />}
       </div>
       <Badge {...badge} />
       {children}
