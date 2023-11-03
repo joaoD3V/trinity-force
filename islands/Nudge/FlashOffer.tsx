@@ -34,7 +34,7 @@ function FlashOffer({
     position: nudge?.position || "right-bottom",
     delayToShowInSeconds: nudge?.delayToShowInSeconds || 0,
     badge: {
-      text: nudge?.badge?.text || "10% OFF em todo o site!",
+      text: nudge?.badge?.text || "Oferta Relâmpago",
       accentColor: nudge?.badge?.accentColor || "amber",
       icon: nudge?.badge?.icon,
     },
