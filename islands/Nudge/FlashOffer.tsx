@@ -9,6 +9,11 @@ export interface Props {
    */
   expiresAt: string;
 
+  /**
+   * default Algum valor
+   */
+  linkToSpecificOffer?: string;
+
   nudge?: Partial<Omit<NudgeBaseProps, "isFlashOffer">>;
 }
 
