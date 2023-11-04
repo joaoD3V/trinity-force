@@ -21,13 +21,14 @@ import * as $$14 from "./islands/Nudge/FlashOffer.tsx";
 import * as $$15 from "./islands/Nudge/FreeDelivery.tsx";
 import * as $$16 from "./islands/Nudge/LowStock.tsx";
 import * as $$17 from "./islands/Nudge/Nudge.tsx";
-import * as $$18 from "./islands/Nudge/PeopleWhoBought.tsx";
-import * as $$19 from "./islands/OutOfStock.tsx";
-import * as $$20 from "./islands/ProductImageZoom.tsx";
-import * as $$21 from "./islands/SearchControls.tsx";
-import * as $$22 from "./islands/ShippingSimulation.tsx";
-import * as $$23 from "./islands/SliderJS.tsx";
-import * as $$24 from "./islands/WishlistButton.tsx";
+import * as $$18 from "./islands/Nudge/NudgeImage.tsx";
+import * as $$19 from "./islands/Nudge/PeopleWhoBought.tsx";
+import * as $$20 from "./islands/OutOfStock.tsx";
+import * as $$21 from "./islands/ProductImageZoom.tsx";
+import * as $$22 from "./islands/SearchControls.tsx";
+import * as $$23 from "./islands/ShippingSimulation.tsx";
+import * as $$24 from "./islands/SliderJS.tsx";
+import * as $$25 from "./islands/WishlistButton.tsx";
 
 const manifest = {
   routes: {
@@ -52,13 +53,14 @@ const manifest = {
     "./islands/Nudge/FreeDelivery.tsx": $$15,
     "./islands/Nudge/LowStock.tsx": $$16,
     "./islands/Nudge/Nudge.tsx": $$17,
-    "./islands/Nudge/PeopleWhoBought.tsx": $$18,
-    "./islands/OutOfStock.tsx": $$19,
-    "./islands/ProductImageZoom.tsx": $$20,
-    "./islands/SearchControls.tsx": $$21,
-    "./islands/ShippingSimulation.tsx": $$22,
-    "./islands/SliderJS.tsx": $$23,
-    "./islands/WishlistButton.tsx": $$24,
+    "./islands/Nudge/NudgeImage.tsx": $$18,
+    "./islands/Nudge/PeopleWhoBought.tsx": $$19,
+    "./islands/OutOfStock.tsx": $$20,
+    "./islands/ProductImageZoom.tsx": $$21,
+    "./islands/SearchControls.tsx": $$22,
+    "./islands/ShippingSimulation.tsx": $$23,
+    "./islands/SliderJS.tsx": $$24,
+    "./islands/WishlistButton.tsx": $$25,
   },
   baseUrl: import.meta.url,
 };

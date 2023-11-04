@@ -1,14 +1,29 @@
 import Nudge, { NudgeBaseProps } from "$store/islands/Nudge/Nudge.tsx";
+import NudgeImage from "./NudgeImage.tsx";
 
 export interface Props {
+   /**
+   * @title Minimum sales quantity to enable people who bought
+   */
   minQuantityToShow: number;
+
+  /**
+   * @title Total sales quantity
+   */
   quantityOfBought: number;
+
+  /**
+   * @title Product image URL
+   */
+  imageURL?: string;
+
   nudge?: Partial<Omit<NudgeBaseProps, "isFlashOffer">>;
 }
 
 function PeopleWhoBought({
   minQuantityToShow = 100,
   quantityOfBought = 100,
+  imageURL,
   nudge,
 }: Props) {
   if (quantityOfBought < minQuantityToShow) return null;
@@ -27,14 +42,18 @@ function PeopleWhoBought({
 
   return (
     <Nudge {...nudgeProps}>
-      <p className="text-base font-medium text-zinc-800 tracking-wider leading-relaxed">
-        <strong
-          className={`text-${[nudgeProps.badge.accentColor]}-800 font-bold`}
-        >
-          +{quantityOfBought}
-        </strong>{" "}
-        pessoas compraram esse produto recentemente
-      </p>
+      <div className="flex gap-3 items-center">
+        <p className="text-base font-medium text-zinc-800 tracking-wider leading-relaxed">
+          <strong
+            className={`text-${[nudgeProps.badge.accentColor]}-800 font-bold`}
+          >
+            +{quantityOfBought}
+          </strong>{" "}
+          pessoas compraram esse produto recentemente
+        </p>
+
+        {imageURL && <NudgeImage imageURL={imageURL} />}
+      </div>
     </Nudge>
   );
 }
