@@ -1,6 +1,7 @@
 import { useEffect, useState } from "preact/hooks";
 
 import Nudge, { NudgeBaseProps } from "$store/islands/Nudge/Nudge.tsx";
+import NudgeImage from "./NudgeImage.tsx";
 
 export interface Props {
   /**
@@ -15,6 +16,11 @@ export interface Props {
   linkToSpecificOffer?: string;
 
   textLink?: string;
+
+  /**
+   * @title Product image URL
+   */
+  imageURL?: string;
 
   nudge?: Partial<Omit<NudgeBaseProps, "isFlashOffer">>;
 }
@@ -35,6 +41,7 @@ function FlashOffer({
   expiresAt,
   linkToSpecificOffer,
   textLink,
+  imageURL,
   nudge,
 }: Props) {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
@@ -107,39 +114,43 @@ function FlashOffer({
   return (
     <Nudge {...nudgeProps}>
       <div className="flex flex-col gap-3 justify-center items-center w-full">
-        <div className="flex items-center justify-center gap-1 w-full">
-          {Number(timeLeft.days) > 0 && (
-            <div className="flex flex-col items-center justify-center gap-0.5">
-              <span className="text-xs">D</span>
-              <Countdown time={Number(timeLeft.days)} />
-            </div>
-          )}
-          <div className="flex flex-col items-center justify-center gap-0.5">
-            <span className="text-xs">H</span>
-            <Countdown time={Number(timeLeft.hours)} />
-          </div>
 
-          <div className="flex flex-col items-center justify-center gap-0.5">
-            <span className="text-xs">Min.</span>
-            <Countdown time={Number(timeLeft.minutes)} />
+        <div className="flex gap-3 items-center">
+          <div className="flex items-center justify-center gap-1 w-full">
+            {Number(timeLeft.days) > 0 && (
+              <div className="flex flex-col items-center justify-center gap-0.5">
+                <span className="text-xs">D</span>
+                <Countdown time={Number(timeLeft.days)} />
+              </div>
+            )}
+            <div className="flex flex-col items-center justify-center gap-0.5">
+              <span className="text-xs">H</span>
+              <Countdown time={Number(timeLeft.hours)} />
+            </div>
+
+            <div className="flex flex-col items-center justify-center gap-0.5">
+              <span className="text-xs">Min.</span>
+              <Countdown time={Number(timeLeft.minutes)} />
+            </div>
+            <div className="flex flex-col items-center justify-center gap-0.5">
+              <span className="text-xs">Seg.</span>
+              <Countdown time={Number(timeLeft.seconds)} />
+            </div>
           </div>
-          <div className="flex flex-col items-center justify-center gap-0.5">
-            <span className="text-xs">Seg.</span>
-            <Countdown time={Number(timeLeft.seconds)} />
-          </div>
+          {imageURL && <NudgeImage imageURL={imageURL} />}
         </div>
+        
+        
         {linkToSpecificOffer && (
-          <div>
             <a
               href={linkToSpecificOffer}
               target="_blank"
-              className={`btn btn-sm uppercase text-${[
+              className={`btn w-full btn-sm uppercase text-${[
                 nudgeProps.badge.accentColor,
               ]}-800 bg-${[nudgeProps.badge.accentColor]}-200`}
             >
               {textLink || "COMPRE AGORA"}
             </a>
-          </div>
         )}
       </div>
     </Nudge>
