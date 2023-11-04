@@ -74,7 +74,7 @@ function Nudge({
 
   return (
     <div
-      className={`flex flex-col items-start justify-start gap-3.5 p-4 shadow-2xl bg-white fixed z-50 rounded-lg max-w-[354px] ${
+      className={`flex flex-col items-start justify-start gap-3.5 p-4 shadow-2xl bg-white fixed z-50 rounded-lg max-w-[354px] group ${
         POSITION_STYLE[position]
       }`}
     >
