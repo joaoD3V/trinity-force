@@ -10,9 +10,11 @@ export interface Props {
   expiresAt: string;
 
   /**
-   * default Algum valor
+   * @default Algum valor
    */
   linkToSpecificOffer?: string;
+
+  textLink?: string;
 
   nudge?: Partial<Omit<NudgeBaseProps, "isFlashOffer">>;
 }
@@ -31,6 +33,8 @@ function Countdown({ time }: CountdownProps) {
 
 function FlashOffer({
   expiresAt,
+  linkToSpecificOffer,
+  textLink,
   nudge,
 }: Props) {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
@@ -102,26 +106,41 @@ function FlashOffer({
 
   return (
     <Nudge {...nudgeProps}>
-      <div className="flex items-center justify-center gap-1 w-full">
-        {Number(timeLeft.days) > 0 && (
+      <div className="flex flex-col gap-3 justify-center items-center w-full">
+        <div className="flex items-center justify-center gap-1 w-full">
+          {Number(timeLeft.days) > 0 && (
+            <div className="flex flex-col items-center justify-center gap-0.5">
+              <span className="text-xs">D</span>
+              <Countdown time={Number(timeLeft.days)} />
+            </div>
+          )}
           <div className="flex flex-col items-center justify-center gap-0.5">
-            <span className="text-xs">D</span>
-            <Countdown time={Number(timeLeft.days)} />
+            <span className="text-xs">H</span>
+            <Countdown time={Number(timeLeft.hours)} />
+          </div>
+
+          <div className="flex flex-col items-center justify-center gap-0.5">
+            <span className="text-xs">Min.</span>
+            <Countdown time={Number(timeLeft.minutes)} />
+          </div>
+          <div className="flex flex-col items-center justify-center gap-0.5">
+            <span className="text-xs">Seg.</span>
+            <Countdown time={Number(timeLeft.seconds)} />
+          </div>
+        </div>
+        {linkToSpecificOffer && (
+          <div>
+            <a
+              href={linkToSpecificOffer}
+              target="_blank"
+              className={`btn btn-sm uppercase text-${[
+                nudgeProps.badge.accentColor,
+              ]}-800 bg-${[nudgeProps.badge.accentColor]}-200`}
+            >
+              {textLink || "COMPRE AGORA"}
+            </a>
           </div>
         )}
-        <div className="flex flex-col items-center justify-center gap-0.5">
-          <span className="text-xs">H</span>
-          <Countdown time={Number(timeLeft.hours)} />
-        </div>
-
-        <div className="flex flex-col items-center justify-center gap-0.5">
-          <span className="text-xs">Min.</span>
-          <Countdown time={Number(timeLeft.minutes)} />
-        </div>
-        <div className="flex flex-col items-center justify-center gap-0.5">
-          <span className="text-xs">Seg.</span>
-          <Countdown time={Number(timeLeft.seconds)} />
-        </div>
       </div>
     </Nudge>
   );
