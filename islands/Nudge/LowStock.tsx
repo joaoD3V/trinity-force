@@ -1,5 +1,6 @@
 import Nudge, { NudgeBaseProps } from "$store/islands/Nudge/Nudge.tsx";
 import { AvailableIcons } from "$store/components/ui/Icon.tsx";
+import NudgeImage from "./NudgeImage.tsx";
 
 export interface Props {
   /**
@@ -12,12 +13,18 @@ export interface Props {
    */
   maxQuantityToShow: number;
 
+  /**
+   * @title Product image URL
+   */
+  imageURL?: string;
+
   nudge?: Partial<Omit<NudgeBaseProps, "isFlashOffer">>;
 }
 
 function LowStock({
   maxQuantityToShow = 100,
   stock = 100,
+  imageURL,
   nudge,
 }: Props) {
   if (stock > maxQuantityToShow) return null;
@@ -36,15 +43,19 @@ function LowStock({
 
   return (
     <Nudge {...nudgeProps}>
-      <p className="text-base font-medium text-zinc-800 tracking-wider leading-relaxed">
-        <strong className="font-bold">Se apresse!</strong> Apenas{" "}
-        <strong
-          className={`text-${[nudgeProps.badge.accentColor]}-800 font-bold`}
-        >
-          {stock}
-        </strong>{" "}
-        {stock > 1 ? "unidades disponíveis!" : "unidade disponível!"}
-      </p>
+      <div className="flex gap-3 items-center">
+        <p className="text-base font-medium text-zinc-800 tracking-wider leading-relaxed">
+          <strong className="font-bold">Se apresse!</strong> Apenas{" "}
+          <strong
+            className={`text-${[nudgeProps.badge.accentColor]}-800 font-bold`}
+          >
+            {stock}
+          </strong>{" "}
+          {stock > 1 ? "unidades disponíveis!" : "unidade disponível!"}
+        </p>
+
+        {imageURL && <NudgeImage imageURL={imageURL} />}
+      </div>
     </Nudge>
   );
 }
