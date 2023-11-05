@@ -12,14 +12,11 @@ function TextEditor(
   { highlightedText = "", keyProperty = "", accentColor = "red" }:
     TextEditorProps,
 ) {
-  console.log(`text-${accentColor}-800`);
-
-  const color = `text-${accentColor}-800`;
   const formattedText = highlightedText
     .replace(/\*(.*?)\*/g, "<strong>$1</strong>") // bold
     .replace(/_(.*?)_/g, "<i>$1</i>") // italic
     .replace(/~(.*?)~/g, "<del>$1</del>") // strikethrough
-    .replace(/\{(.*?)\}/g, `<span class=${color}>$1</span>`) // accent color
+    .replace(/\{(.*?)\}/g, `<span class="text-${accentColor}-800">$1</span>`) // accent color
     .replace(
       /\$\$/g,
       `<span>${keyProperty.toString()}</span>`,
