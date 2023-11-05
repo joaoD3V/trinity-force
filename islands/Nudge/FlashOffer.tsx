@@ -2,6 +2,9 @@ import { useEffect, useState } from "preact/hooks";
 
 import Nudge, { NudgeBaseProps } from "$store/islands/Nudge/Nudge.tsx";
 import NudgeImage from "./NudgeImage.tsx";
+import TextEditor, {
+  TextEditorProps,
+} from "../../components/ui/TextEditor.tsx";
 
 export interface Props {
   /**
@@ -11,16 +14,21 @@ export interface Props {
   expiresAt: string;
 
   /**
-   * @default Algum valor
+   * @description KEY PROPERTY
    */
   linkToSpecificOffer?: string;
 
+  /**
+   * @description Text to be displayed on the button
+   */
   textLink?: string;
 
   /**
    * @title Product image URL
    */
   imageURL?: string;
+
+  textEditor?: Partial<Omit<TextEditorProps, "accentColor" | "keyProperty">>;
 
   nudge?: Partial<Omit<NudgeBaseProps, "isFlashOffer">>;
 }
@@ -42,6 +50,7 @@ function FlashOffer({
   linkToSpecificOffer,
   textLink,
   imageURL,
+  textEditor,
   nudge,
 }: Props) {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
@@ -57,6 +66,13 @@ function FlashOffer({
     disappearAfterSeconds: nudge?.disappearAfterSeconds,
     persistentNudge: nudge?.persistentNudge,
     isFlashOffer: true,
+  };
+
+  const textEditorProps: TextEditorProps = {
+    highlightedText: textEditor?.highlightedText ||
+      "Aproveite esta oferta relâmpago e compre com desconto!",
+    keyProperty: linkToSpecificOffer,
+    accentColor: nudge?.badge?.accentColor || "amber",
   };
 
   useEffect(() => {
@@ -114,7 +130,6 @@ function FlashOffer({
   return (
     <Nudge {...nudgeProps}>
       <div className="flex flex-col gap-3 justify-center items-center w-full">
-
         <div className="flex gap-3 items-center">
           <div className="flex items-center justify-center gap-1 w-full">
             {Number(timeLeft.days) > 0 && (
@@ -139,18 +154,19 @@ function FlashOffer({
           </div>
           {imageURL && <NudgeImage imageURL={imageURL} />}
         </div>
-        
-        
+
+        <TextEditor {...textEditorProps} />
+
         {linkToSpecificOffer && (
-            <a
-              href={linkToSpecificOffer}
-              target="_blank"
-              className={`btn w-full btn-sm uppercase text-${[
-                nudgeProps.badge.accentColor,
-              ]}-800 bg-${[nudgeProps.badge.accentColor]}-200`}
-            >
-              {textLink || "COMPRE AGORA"}
-            </a>
+          <a
+            href={linkToSpecificOffer}
+            target="_blank"
+            className={`btn w-full btn-sm uppercase text-${[
+              nudgeProps.badge.accentColor,
+            ]}-800 bg-${[nudgeProps.badge.accentColor]}-200`}
+          >
+            {textLink || "COMPRE AGORA"}
+          </a>
         )}
       </div>
     </Nudge>

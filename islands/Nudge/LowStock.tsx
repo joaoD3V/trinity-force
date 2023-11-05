@@ -49,9 +49,10 @@ function LowStock({
   };
 
   const textEditorProps: TextEditorProps = {
-    highlightedText: textEditor?.highlightedText,
+    highlightedText: textEditor?.highlightedText ||
+      "Se apresse! Restam apenas $$ unidades!",
     keyProperty: stock,
-    accentColor: nudge?.badge?.accentColor,
+    accentColor: nudge?.badge?.accentColor || "amber",
   };
 
   return (

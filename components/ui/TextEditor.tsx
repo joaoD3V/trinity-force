@@ -1,16 +1,14 @@
 export interface TextEditorProps {
   /**
    * @description Text can be highlighted: for bold, wrap the text in asterisks (*). For italic, wrap the text in underscores (_). For strikethrough, wrap the text in tildes (~). For apply accent color, wrap the text in brackets ({}). To include the value of the KEY PROPERTY, simply put $$.
-   * @default Se apresse! Restam poucas unidades!!
    */
-  highlightedText?: string;
+  highlightedText: string;
   keyProperty?: string | number;
-  accentColor?: string;
+  accentColor: string;
 }
 
 function TextEditor(
-  { highlightedText = "", keyProperty = "", accentColor = "red" }:
-    TextEditorProps,
+  { highlightedText, keyProperty = "", accentColor }: TextEditorProps,
 ) {
   const formattedText = highlightedText
     .replace(/\*(.*?)\*/g, "<strong>$1</strong>") // bold

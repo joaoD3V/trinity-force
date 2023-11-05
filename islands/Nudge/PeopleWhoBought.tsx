@@ -1,14 +1,18 @@
 import Nudge, { NudgeBaseProps } from "$store/islands/Nudge/Nudge.tsx";
+import TextEditor, {
+  TextEditorProps,
+} from "../../components/ui/TextEditor.tsx";
 import NudgeImage from "./NudgeImage.tsx";
 
 export interface Props {
-   /**
+  /**
    * @title Minimum sales quantity to enable people who bought
    */
   minQuantityToShow: number;
 
   /**
    * @title Total sales quantity
+   * @description KEY PROPERTY
    */
   quantityOfBought: number;
 
@@ -17,6 +21,8 @@ export interface Props {
    */
   imageURL?: string;
 
+  textEditor?: Partial<Omit<TextEditorProps, "accentColor" | "keyProperty">>;
+
   nudge?: Partial<Omit<NudgeBaseProps, "isFlashOffer">>;
 }
 
@@ -24,6 +30,7 @@ function PeopleWhoBought({
   minQuantityToShow = 100,
   quantityOfBought = 100,
   imageURL,
+  textEditor,
   nudge,
 }: Props) {
   if (quantityOfBought < minQuantityToShow) return null;
@@ -40,17 +47,17 @@ function PeopleWhoBought({
     persistentNudge: nudge?.persistentNudge,
   };
 
+  const textEditorProps: TextEditorProps = {
+    highlightedText: textEditor?.highlightedText ||
+      "Mais de $$ pessoas compraram esse produto recentemente",
+    keyProperty: quantityOfBought,
+    accentColor: nudge?.badge?.accentColor || "emerald",
+  };
+
   return (
     <Nudge {...nudgeProps}>
       <div className="flex gap-3 items-center">
-        <p className="text-base font-medium text-zinc-800 tracking-wider leading-relaxed">
-          <strong
-            className={`text-${[nudgeProps.badge.accentColor]}-800 font-bold`}
-          >
-            +{quantityOfBought}
-          </strong>{" "}
-          pessoas compraram esse produto recentemente
-        </p>
+        <TextEditor {...textEditorProps} />
 
         {imageURL && <NudgeImage imageURL={imageURL} />}
       </div>
