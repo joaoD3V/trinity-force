@@ -1,23 +1,30 @@
 import Nudge, { NudgeBaseProps } from "$store/islands/Nudge/Nudge.tsx";
 import { AvailableIcons } from "$store/components/ui/Icon.tsx";
+import TextEditor, {
+  TextEditorProps,
+} from "../../components/ui/TextEditor.tsx";
 
 export interface Props {
-  /**
-   * @title Stock amount
-   */
-  stock: number;
-
   /**
    * @title Max items for low stock warning
    */
   maxQuantityToShow: number;
 
+  /**
+   * @title Stock amount
+   * @description KEY PROPERTY
+   */
+  stock: number;
+
+  textEditor?: Partial<Omit<TextEditorProps, "accentColor" | "keyProperty">>;
+
   nudge?: Partial<Omit<NudgeBaseProps, "isFlashOffer">>;
 }
 
 function LowStock({
-  maxQuantityToShow = 100,
-  stock = 100,
+  maxQuantityToShow,
+  stock,
+  textEditor,
   nudge,
 }: Props) {
   if (stock > maxQuantityToShow) return null;
@@ -34,17 +41,15 @@ function LowStock({
     persistentNudge: nudge?.persistentNudge,
   };
 
+  const textEditorProps: TextEditorProps = {
+    highlightedText: textEditor?.highlightedText,
+    keyProperty: stock,
+    accentColor: nudge?.badge?.accentColor,
+  };
+
   return (
     <Nudge {...nudgeProps}>
-      <p className="text-base font-medium text-zinc-800 tracking-wider leading-relaxed">
-        <strong className="font-bold">Se apresse!</strong> Apenas{" "}
-        <strong
-          className={`text-${[nudgeProps.badge.accentColor]}-800 font-bold`}
-        >
-          {stock}
-        </strong>{" "}
-        {stock > 1 ? "unidades disponíveis!" : "unidade disponível!"}
-      </p>
+      <TextEditor {...textEditorProps} />
     </Nudge>
   );
 }
