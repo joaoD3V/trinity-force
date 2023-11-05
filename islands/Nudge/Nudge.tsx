@@ -99,7 +99,7 @@ function Nudge({
       }`}
     >
       <div
-        className={"absolute top-4 right-4 cursor-pointer"}
+        className={"absolute top-2 right-2 cursor-pointer"}
         onClick={() => setIsShowing(false)}
       >
         {isCloseable && <Icon id="XMark" size={12} strokeWidth={4} />}
