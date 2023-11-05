@@ -3,7 +3,7 @@ import { AvailableIcons } from "$store/components/ui/Icon.tsx";
 import TextEditor, {
   TextEditorProps,
 } from "../../components/ui/TextEditor.tsx";
-
+import NudgeImage from "./NudgeImage.tsx";
 export interface Props {
   /**
    * @title Max items for low stock warning
@@ -18,6 +18,11 @@ export interface Props {
 
   textEditor?: Partial<Omit<TextEditorProps, "accentColor" | "keyProperty">>;
 
+  /**
+   * @title Product image URL
+   */
+  imageURL?: string;
+
   nudge?: Partial<Omit<NudgeBaseProps, "isFlashOffer">>;
 }
 
@@ -25,6 +30,8 @@ function LowStock({
   maxQuantityToShow,
   stock,
   textEditor,
+  imageURL,
+
   nudge,
 }: Props) {
   if (stock > maxQuantityToShow) return null;
@@ -49,7 +56,11 @@ function LowStock({
 
   return (
     <Nudge {...nudgeProps}>
-      <TextEditor {...textEditorProps} />
+      <div className="flex gap-3 items-center">
+        <TextEditor {...textEditorProps} />
+
+        {imageURL && <NudgeImage imageURL={imageURL} />}
+      </div>
     </Nudge>
   );
 }
