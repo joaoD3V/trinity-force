@@ -33,15 +33,15 @@ export interface Props {
      */
     authentication?: string;
     /**
-     * @title path to needed data
-     * @description based on request result, the path to get the needed data
+     * @title path to stock data
+     * @description Based on request result, the path to get the needed data.
      */
-    dataPath: string;
+    stockKey: string;
   }
 }
 
 export interface Data {
-  data: string | null
+  data: number | null
 }
 
 export async function loader(
@@ -49,7 +49,7 @@ export async function loader(
     dataIntegration: {
       url,
       authentication,
-      dataPath,
+      stockKey,
     },
     ...props
   }: Props & LowStockProps,
@@ -65,7 +65,7 @@ export async function loader(
 
   const result = await fetch(url, { headers }).then((r) => r.json()).catch((_error) => ({}));
 
-  return { ...props, data: result[dataPath] ?? null };
+  return { ...props, data: result[stockKey] ?? null };
 }
 
 export default function LowStock({
