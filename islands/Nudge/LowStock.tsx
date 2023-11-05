@@ -4,6 +4,7 @@ import TextEditor, {
   TextEditorProps,
 } from "$store/components/ui/TextEditor.tsx";
 import NudgeImage from "$store/islands/Nudge/NudgeImage.tsx";
+
 export interface Props {
   /**
    * @title Max items for low stock warning
