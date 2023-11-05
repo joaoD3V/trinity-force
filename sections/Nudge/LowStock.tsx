@@ -22,17 +22,19 @@ export interface LowStockProps {
 }
 
 export interface Props {
-  stockIntegration: {
+  dataIntegration: {
     /**
      * @title integration url
      */
     url: string;
     /**
-     * @title authentication (including type)
+     * @title authentication
+     * @description auth token including type (e.g: Bearer my_token)
      */
     authentication?: string;
     /**
      * @title path to needed data
+     * @description based on request result, the path to get the needed data
      */
     dataPath: string;
   }
@@ -44,7 +46,7 @@ export interface Data {
 
 export async function loader(
   {
-    stockIntegration: {
+    dataIntegration: {
       url,
       authentication,
       dataPath,

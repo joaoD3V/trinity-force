@@ -2,9 +2,8 @@
 // This file SHOULD be checked into source version control.
 // This file is automatically updated during development when running `dev.ts`.
 
-import * as $$$0 from "./loaders/SingleRequestLoader.ts";
-import * as $$$1 from "./loaders/List/Sections.tsx";
-import * as $$$2 from "./loaders/Layouts/ProductCard.tsx";
+import * as $$$0 from "./loaders/List/Sections.tsx";
+import * as $$$1 from "./loaders/Layouts/ProductCard.tsx";
 import * as $$$$$$0 from "./sections/Footer/Footer.tsx";
 import * as $$$$$$1 from "./sections/Miscellaneous/CookieConsent.tsx";
 import * as $$$$$$2 from "./sections/Miscellaneous/CampaignTimer.tsx";
@@ -48,9 +47,8 @@ import * as $$$$$$$$$$$1 from "./apps/site.ts";
 
 const manifest = {
   "loaders": {
-    "deco-sites/storefront/loaders/Layouts/ProductCard.tsx": $$$2,
-    "deco-sites/storefront/loaders/List/Sections.tsx": $$$1,
-    "deco-sites/storefront/loaders/SingleRequestLoader.ts": $$$0,
+    "deco-sites/storefront/loaders/Layouts/ProductCard.tsx": $$$1,
+    "deco-sites/storefront/loaders/List/Sections.tsx": $$$0,
   },
   "sections": {
     "deco-sites/storefront/sections/Category/CategoryBanner.tsx": $$$$$$37,
