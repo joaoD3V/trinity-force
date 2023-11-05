@@ -1,30 +1,37 @@
 import Nudge, { NudgeBaseProps } from "$store/islands/Nudge/Nudge.tsx";
 import { AvailableIcons } from "$store/components/ui/Icon.tsx";
-import NudgeImage from "./NudgeImage.tsx";
-
+import TextEditor, {
+  TextEditorProps,
+} from "$store/components/ui/TextEditor.tsx";
+import NudgeImage from "$store/islands/Nudge/NudgeImage.tsx";
 export interface Props {
-  /**
-   * @title Stock amount
-   */
-  stock: number;
-
   /**
    * @title Max items for low stock warning
    */
   maxQuantityToShow: number;
 
   /**
+   * @title Stock amount
+   * @description KEY PROPERTY
+   */
+  stock: number;
+
+  textEditor?: Partial<Omit<TextEditorProps, "accentColor" | "keyProperty">>;
+
+  /**
    * @title Product image URL
    */
   imageURL?: string;
 
-  nudge?: Partial<Omit<NudgeBaseProps, "isFlashOffer">>;
+  nudge?: NudgeBaseProps;
 }
 
 function LowStock({
-  maxQuantityToShow = 100,
-  stock = 100,
+  maxQuantityToShow,
+  stock,
+  textEditor,
   imageURL,
+
   nudge,
 }: Props) {
   if (stock > maxQuantityToShow) return null;
@@ -38,21 +45,20 @@ function LowStock({
       icon: nudge?.badge?.icon,
     },
     disappearAfterSeconds: nudge?.disappearAfterSeconds,
-    persistentNudge: nudge?.persistentNudge,
+    isCloseable: nudge?.isCloseable,
+  };
+
+  const textEditorProps: TextEditorProps = {
+    highlightedText: textEditor?.highlightedText ||
+      "Se apresse! Restam apenas $$ unidades!",
+    keyProperty: stock,
+    accentColor: nudge?.badge?.accentColor || "amber",
   };
 
   return (
     <Nudge {...nudgeProps}>
       <div className="flex gap-3 items-center">
-        <p className="text-base font-medium text-zinc-800 tracking-wider leading-relaxed">
-          <strong className="font-bold">Se apresse!</strong> Apenas{" "}
-          <strong
-            className={`text-${[nudgeProps.badge.accentColor]}-800 font-bold`}
-          >
-            {stock}
-          </strong>{" "}
-          {stock > 1 ? "unidades disponíveis!" : "unidade disponível!"}
-        </p>
+        <TextEditor {...textEditorProps} />
 
         {imageURL && <NudgeImage imageURL={imageURL} />}
       </div>
