@@ -17,11 +17,13 @@ export type Position =
 export interface NudgeBaseProps {
   /**
    * @description Nudge will appear after the set time
+   * @default 2
    */
-  delayToShowInSeconds: number;
+  delayToShowInSeconds?: number;
 
   /**
    * @description Nudge will disappear after the set time
+   * @default 0
    */
   disappearAfterSeconds?: number;
 
@@ -59,7 +61,7 @@ const POSITION_STYLE = {
 
 function Nudge({
   children,
-  delayToShowInSeconds = 0,
+  delayToShowInSeconds = 2,
   position = "left-bottom",
   disappearAfterSeconds,
   badge,
@@ -78,7 +80,7 @@ function Nudge({
   }, []);
 
   useEffect(() => {
-    if (disappearAfterSeconds) {
+    if (isShowing && disappearAfterSeconds) {
       const disappear = setTimeout(() => {
         setIsShowing(false);
       }, disappearAfterSeconds * 1000);
@@ -86,7 +88,7 @@ function Nudge({
         clearTimeout(disappear);
       };
     }
-  }, []);
+  }, [isShowing]);
 
   if (!isShowing) return null;
 
