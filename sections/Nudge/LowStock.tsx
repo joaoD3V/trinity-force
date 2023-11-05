@@ -34,14 +34,14 @@ export interface Props {
     authentication?: string;
     /**
      * @title path to stock data
-     * @description Based on request result, the path to get the needed data.
+     * @description Based on request result, the path to get the needed data. (KEY PROPERTY)
      */
     stockKey: string;
-  }
+  };
 }
 
 export interface Data {
-  data: number | null
+  data: number | null;
 }
 
 export async function loader(
@@ -53,17 +53,19 @@ export async function loader(
     },
     ...props
   }: Props & LowStockProps,
-  _req: Request
+  _req: Request,
 ): Promise<LowStockProps & Data> {
-  if (!url) return { data: null };
+  if (!url) return { ...props, data: null };
 
   const headers = new Headers();
 
   if (authentication) {
-    headers.append('Authorization', authentication);
+    headers.append("Authorization", authentication);
   }
 
-  const result = await fetch(url, { headers }).then((r) => r.json()).catch((_error) => ({}));
+  const result = await fetch(url, { headers }).then((r) => r.json()).catch((
+    _error,
+  ) => ({}));
 
   return { ...props, data: result[stockKey] ?? null };
 }
@@ -73,9 +75,9 @@ export default function LowStock({
   maxQuantityToShow,
   textEditor,
   imageURL,
-  nudge
+  nudge,
 }: SectionProps<typeof loader>) {
-  if (stock > maxQuantityToShow) return null;
+  if (stock === null || stock > maxQuantityToShow) return null;
 
   const nudgeProps: NudgeBaseProps = {
     position: nudge?.position || "bottom-center",
