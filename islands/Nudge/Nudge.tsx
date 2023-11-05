@@ -17,11 +17,13 @@ export type Position =
 export interface NudgeBaseProps {
   /**
    * @description Nudge will appear after the set time
+   * @default 2
    */
   delayToShowInSeconds?: number;
 
   /**
    * @description Nudge will disappear after the set time
+   * @default 0
    */
   disappearAfterSeconds?: number;
 
