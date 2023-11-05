@@ -2,8 +2,8 @@ import Nudge, { NudgeBaseProps } from "$store/islands/Nudge/Nudge.tsx";
 import { AvailableIcons } from "$store/components/ui/Icon.tsx";
 import TextEditor, {
   TextEditorProps,
-} from "../../components/ui/TextEditor.tsx";
-import NudgeImage from "./NudgeImage.tsx";
+} from "$store/components/ui/TextEditor.tsx";
+import NudgeImage from "$store/islands/Nudge/NudgeImage.tsx";
 export interface Props {
   /**
    * @title Max items for low stock warning
@@ -23,7 +23,7 @@ export interface Props {
    */
   imageURL?: string;
 
-  nudge?: Partial<Omit<NudgeBaseProps, "isFlashOffer">>;
+  nudge?: NudgeBaseProps;
 }
 
 function LowStock({
@@ -45,7 +45,7 @@ function LowStock({
       icon: nudge?.badge?.icon,
     },
     disappearAfterSeconds: nudge?.disappearAfterSeconds,
-    persistentNudge: nudge?.persistentNudge,
+    isCloseable: nudge?.isCloseable,
   };
 
   const textEditorProps: TextEditorProps = {

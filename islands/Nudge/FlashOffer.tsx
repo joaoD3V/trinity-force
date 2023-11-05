@@ -1,10 +1,10 @@
 import { useEffect, useState } from "preact/hooks";
 
 import Nudge, { NudgeBaseProps } from "$store/islands/Nudge/Nudge.tsx";
-import NudgeImage from "./NudgeImage.tsx";
+import NudgeImage from "$store/islands/Nudge/NudgeImage.tsx";
 import TextEditor, {
   TextEditorProps,
-} from "../../components/ui/TextEditor.tsx";
+} from "$store/components/ui/TextEditor.tsx";
 
 export interface Props {
   /**
@@ -14,7 +14,7 @@ export interface Props {
   expiresAt: string;
 
   /**
-   * @description KEY PROPERTY
+   * @description link
    */
   linkToSpecificOffer?: string;
 
@@ -30,7 +30,7 @@ export interface Props {
 
   textEditor?: Partial<Omit<TextEditorProps, "accentColor" | "keyProperty">>;
 
-  nudge?: Partial<Omit<NudgeBaseProps, "isFlashOffer">>;
+  nudge?: NudgeBaseProps;
 }
 
 type CountdownProps = {
@@ -64,8 +64,7 @@ function FlashOffer({
       icon: nudge?.badge?.icon,
     },
     disappearAfterSeconds: nudge?.disappearAfterSeconds,
-    persistentNudge: nudge?.persistentNudge,
-    isFlashOffer: true,
+    isCloseable: nudge?.isCloseable,
   };
 
   const textEditorProps: TextEditorProps = {
@@ -161,9 +160,7 @@ function FlashOffer({
           <a
             href={linkToSpecificOffer}
             target="_blank"
-            className={`btn w-full btn-sm uppercase text-${[
-              nudgeProps.badge.accentColor,
-            ]}-800 bg-${[nudgeProps.badge.accentColor]}-200`}
+            className={`w-full btn-sm uppercase btn btn-link text-${nudgeProps.badge.accentColor}-800 bg-${nudgeProps.badge.accentColor}-200`}
           >
             {textLink || "COMPRE AGORA"}
           </a>

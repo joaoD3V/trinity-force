@@ -3,10 +3,10 @@ import Nudge, {
   Position,
 } from "$store/islands/Nudge/Nudge.tsx";
 import Icon, { AvailableIcons } from "$store/components/ui/Icon.tsx";
-import { COLOR_STYLE } from "../../components/ui/Badge.tsx";
+import { COLOR_STYLE } from "$store/components/ui/Badge.tsx";
 import TextEditor, {
   TextEditorProps,
-} from "../../components/ui/TextEditor.tsx";
+} from "$store/components/ui/TextEditor.tsx";
 
 export interface Props {
   /**
@@ -19,7 +19,7 @@ export interface Props {
 
   textEditor?: Partial<Omit<TextEditorProps, "accentColor" | "keyProperty">>;
 
-  nudge?: Partial<Omit<NudgeBaseProps, "isFlashOffer">>;
+  nudge?: NudgeBaseProps;
 }
 
 function FreeDelivery({
@@ -37,7 +37,7 @@ function FreeDelivery({
       icon: nudge?.badge?.icon || "Zoom",
     },
     disappearAfterSeconds: nudge?.disappearAfterSeconds,
-    persistentNudge: nudge?.persistentNudge,
+    isCloseable: nudge?.isCloseable,
   };
 
   const textEditorProps: TextEditorProps = {

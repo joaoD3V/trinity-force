@@ -1,8 +1,8 @@
 import Nudge, { NudgeBaseProps } from "$store/islands/Nudge/Nudge.tsx";
 import TextEditor, {
   TextEditorProps,
-} from "../../components/ui/TextEditor.tsx";
-import NudgeImage from "./NudgeImage.tsx";
+} from "$store/components/ui/TextEditor.tsx";
+import NudgeImage from "$store/islands/Nudge/NudgeImage.tsx";
 
 export interface Props {
   /**
@@ -23,7 +23,7 @@ export interface Props {
 
   textEditor?: Partial<Omit<TextEditorProps, "accentColor" | "keyProperty">>;
 
-  nudge?: Partial<Omit<NudgeBaseProps, "isFlashOffer">>;
+  nudge?: NudgeBaseProps;
 }
 
 function PeopleWhoBought({
@@ -44,7 +44,7 @@ function PeopleWhoBought({
       icon: nudge?.badge?.icon,
     },
     disappearAfterSeconds: nudge?.disappearAfterSeconds,
-    persistentNudge: nudge?.persistentNudge,
+    isCloseable: nudge?.isCloseable,
   };
 
   const textEditorProps: TextEditorProps = {
