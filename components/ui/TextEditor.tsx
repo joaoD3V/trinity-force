@@ -1,10 +1,13 @@
+import { TailwindColorBase } from "$store/types/Colors.ts";
+
 export interface TextEditorProps {
   /**
-   * @description Text can be highlighted: for bold, wrap the text in asterisks (*). For italic, wrap the text in underscores (_). For strikethrough, wrap the text in tildes (~). For apply accent color, wrap the text in brackets ({}). To include the value of the KEY PROPERTY, simply put $$.
+   * @description Text can be highlighted: for bold, wrap the text in asterisks (*). For italic, wrap the text in underscores (_). For strikethrough, wrap the text in tildes (~). For apply accent color, wrap the text in brackets ({}). To include the value of the KEY PROPERTY, if it exists, simply put $$.
    */
   highlightedText: string;
+
   keyProperty?: string | number;
-  accentColor: string;
+  accentColor: TailwindColorBase;
 }
 
 function TextEditor(
