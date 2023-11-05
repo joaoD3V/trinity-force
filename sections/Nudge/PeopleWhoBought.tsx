@@ -34,14 +34,14 @@ export interface Props {
     authentication?: string;
     /**
      * @title path to total sales data
-     * @description Based on request result, the path to get the needed data.
+     * @description Based on request result, the path to get the needed data. (KEY PROPERTY)
      */
     salesKey: string;
-  }
+  };
 }
 
 export interface Data {
-  data: number | null
+  data: number | null;
 }
 
 export async function loader(
@@ -53,17 +53,19 @@ export async function loader(
     },
     ...props
   }: Props & PeopleWhoBoughtProps,
-  _req: Request
+  _req: Request,
 ): Promise<PeopleWhoBoughtProps & Data> {
-  if (!url) return { data: null };
+  if (!url) return { ...props, data: null };
 
   const headers = new Headers();
 
   if (authentication) {
-    headers.append('Authorization', authentication);
+    headers.append("Authorization", authentication);
   }
 
-  const result = await fetch(url, { headers }).then((r) => r.json()).catch((_error) => ({}));
+  const result = await fetch(url, { headers }).then((r) => r.json()).catch((
+    _error,
+  ) => ({}));
 
   return { ...props, data: result[salesKey] ?? null };
 }
@@ -73,9 +75,11 @@ function PeopleWhoBought({
   imageURL,
   textEditor,
   nudge,
-  data: quantityOfBought
-}: Props) {
-  if (quantityOfBought < minQuantityToShow) return null;
+  data: quantityOfBought,
+}: SectionProps<typeof loader>) {
+  if (quantityOfBought === null || quantityOfBought < minQuantityToShow) {
+    return null;
+  }
 
   const nudgeProps: NudgeBaseProps = {
     position: nudge?.position || "right-bottom",

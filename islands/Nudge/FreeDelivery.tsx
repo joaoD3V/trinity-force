@@ -15,6 +15,10 @@ export interface Props {
    */
   minimumCartPrice: number;
 
+  /**
+   * @title Big icon
+   * @description Icon to be displayed on the right side of the text
+   */
   bigIcon?: AvailableIcons;
 
   textEditor?: Partial<Omit<TextEditorProps, "accentColor" | "keyProperty">>;
