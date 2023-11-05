@@ -2,7 +2,7 @@ import { useEffect, useState } from "preact/hooks";
 import type { ComponentChildren } from "preact";
 
 import Badge, { BadgeProps } from "$store/components/ui/Badge.tsx";
-import Icon from "../../components/ui/Icon.tsx";
+import Icon from "$store/components/ui/Icon.tsx";
 
 export type Position =
   | "bottom-center"
@@ -15,12 +15,31 @@ export type Position =
   | "top-center";
 
 export interface NudgeBaseProps {
+  /**
+   * @description Nudge will appear after the set time
+   */
   delayToShowInSeconds: number;
+
+  /**
+   * @description Nudge will disappear after the set time
+   */
   disappearAfterSeconds?: number;
-  persistentNudge?: boolean;
+
+  /**
+   * @description Nudge position
+   */
   position: Position;
+
+  /**
+   * @description Badge properties
+   */
   badge: BadgeProps;
-  isFlashOffer?: boolean;
+
+  /**
+   * @description If true, the nudge will have a close button
+   * @default true
+   */
+  isCloseable?: boolean;
 }
 
 export interface NudgeProps extends NudgeBaseProps {
@@ -42,10 +61,9 @@ function Nudge({
   children,
   delayToShowInSeconds = 0,
   position = "left-bottom",
-  persistentNudge = false,
   disappearAfterSeconds,
   badge,
-  isFlashOffer,
+  isCloseable,
 }: NudgeProps) {
   const [isShowing, setIsShowing] = useState(false);
 
@@ -60,7 +78,7 @@ function Nudge({
   }, []);
 
   useEffect(() => {
-    if (!persistentNudge && disappearAfterSeconds) {
+    if (disappearAfterSeconds) {
       const disappear = setTimeout(() => {
         setIsShowing(false);
       }, disappearAfterSeconds * 1000);
@@ -82,7 +100,7 @@ function Nudge({
         className={"absolute top-4 right-4 cursor-pointer"}
         onClick={() => setIsShowing(false)}
       >
-        {!isFlashOffer && <Icon id="XMark" size={12} strokeWidth={4} />}
+        {isCloseable && <Icon id="XMark" size={12} strokeWidth={4} />}
       </div>
       <Badge {...badge} />
       {children}
