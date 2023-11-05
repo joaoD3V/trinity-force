@@ -70,7 +70,7 @@ function FlashOffer({
   const textEditorProps: TextEditorProps = {
     highlightedText: textEditor?.highlightedText ||
       "Aproveite esta oferta relâmpago e compre com desconto!",
-    keyProperty: linkToSpecificOffer,
+    keyProperty: "",
     accentColor: nudge?.badge?.accentColor || "amber",
   };
 
